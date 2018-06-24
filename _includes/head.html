@@ -17,9 +17,34 @@
             font-size: 2em;
             text-align: center;
         }
+/*        .post-preview {
+            position: relative;
+        }*/
+        .post-preview .inner {
+            display: flex;
+            position: absolute;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            top: 0;
+        }
+        .post-preview h3 {
+            color: inherit !important;
+        }
+        .post-preview {
+            max-width: 50%;
+        }
+        .post-preview img {
+            height: auto;
+            max-width: 100%;
+        }
+        .post-preview.dark {
+            color: #fff;
+        }
     </style>
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
     <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-
+    
     {% include head-tags.html %}
 </head>

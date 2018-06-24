@@ -3,32 +3,38 @@ layout: default
 ---
 
 <article id="main">
-	<header style="padding: 6em 0 5em">
-		<h2><i>MVMENT</i> Blog</h2>
-	</header>
-	<section class="wrapper style5">
-		<div class="inner">
-			{%- if site.posts.size > 0 -%}
-		    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
-		    <ul class="post-list">
-		      {%- for post in site.posts -%}
-		      <li>
-		        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-		        <span class="post-meta">{{ post.date | date: date_format }}</span>
-		        <h3>
-		          <a class="post-link" href="{{ post.url | relative_url }}">
-		            {{ post.title | escape }}
-		          </a>
-		        </h3>
-		        {%- if site.show_excerpts -%}
-		          {{ post.excerpt }}
-		        {%- endif -%}
-		      </li>
-		      {%- endfor -%}
-		    </ul>
+    <header style="padding: 6em 0 5em">
+        <h2><i>MVMENT</i> Blog</h2>
+    </header>
+    <section class="wrapper style5">
+        <div class="inner">
+            {%- if site.posts.size > 0 -%}
+            <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
+                {%- for post in site.posts -%}
+                <a href="{{ post.url | relative_url }}">
+                    <div class="grid-item post-preview {{ post.previewStyle }}">
+                        {% if post.image %}
+                            <img src="{{ post.image }}" />
+                        {% endif %}
+                        <div class="inner">
+                            {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+                            <div>
+                                <span class="post-meta">{{ post.date | date: date_format }}</span>
+                                <h3>{{ post.title | escape }}</h3>
+                            </div>
+                            {%- if site.show_excerpts -%}
+                              {{ post.excerpt }}
+                            {%- endif -%}
+                        </div>
+                    </div>
+                </a>
+                {%- endfor -%}
+            </div>
 
-		    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
-		  {%- endif -%}
-		</div>
-	</section>
+            <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+            {%- endif -%}
+        </div>
+    </section>
 </article>
+
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>

@@ -1,0 +1,25 @@
+---
+layout: default
+---
+
+<!-- <header style="padding: 8em 0 7em">
+	<div class="blur-bg"><img src="https://unsplash.it/300"></div>
+	<h2>{{ page.title }}</h2>
+</header> -->
+<article class="content-block article {{ page.style }}">
+	<div class="wrapper">
+		<div class="inner">
+			<header>
+				<nav>
+					<a href="{{ site.baseurl }}/" class="navlink">&larr; all posts</a>
+				</nav>
+				<h1>{{ page.title }}</h1>
+			</header>
+			<section>
+				{{ content }}
+				{% include post-meta.html %}
+			</section>
+		</div>
+	</div>
+</article>
+

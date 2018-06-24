@@ -1,0 +1,25 @@
+<head>
+    <title>{{ site.title }}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    
+    <!-- TODO: switch this to "/" because the blog will be mapped to mvmentmg.com/blog -->
+    <!-- <base href="https://mvmentmag.com/" /> -->
+    
+    <link rel="stylesheet" href="https://mvmentmag.com/assets/css/main.css" />
+    <style>
+        .article header > nav {
+            margin-bottom: 1.75em;
+        }
+        .article h1 {
+            color: inherit;
+            font-size: 2em;
+            text-align: center;
+        }
+    </style>
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+
+    {% include head-tags.html %}
+</head>

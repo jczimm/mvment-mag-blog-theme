@@ -4,9 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
     
-    <!-- TODO: switch this to "/" because the blog will be mapped to mvmentmg.com/blog -->
-    <!-- <base href="https://mvmentmag.com/" /> -->
-    
     <link rel="stylesheet" href="https://mvmentmag.com/assets/css/main.css" />
     <style>
         #header {
@@ -20,6 +17,13 @@
             font-size: 2em;
             text-align: center;
         }
+        .preview-grid {
+            opacity: 0;
+            transition: 1s opacity;
+        }
+        .preview-grid.ready {
+            opacity: 1
+        }
 /*        .post-preview {
             position: relative;
         }*/
@@ -31,6 +35,12 @@
             height: 100%;
             width: 100%;
             top: 0;
+        }
+        .post-preview .inner > div {
+            text-align: center;
+            padding: 2em;
+            font-size: 2em;
+            line-height: 1.25em;
         }
         .post-preview h3 {
             color: inherit !important;
@@ -44,6 +54,19 @@
         }
         .post-preview.dark {
             color: #fff;
+        }
+
+        .rss-subscribe {
+            margin-top: 4em;
+        }
+
+        @media screen and (max-width: 736px) {
+            .post-preview {
+                max-width: 100%;
+            }
+            .article {
+                margin-top: 1.5em;
+            }
         }
     </style>
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->

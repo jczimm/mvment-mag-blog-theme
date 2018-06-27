@@ -6,13 +6,13 @@ layout: default
     <header style="padding: 8em 0 5em">
         <h2><i>MVMENT</i> Blog</h2>
     </header>
-    <section class="wrapper style5">
+    <section class="wrapper style2">
         <div class="inner">
             {%- if site.posts.size > 0 -%}
-            <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
+            <div class="preview-grid">
                 {%- for post in site.posts -%}
                 <a href="{{ post.url | relative_url }}">
-                    <div class="grid-item post-preview {{ post.previewStyle }}">
+                    <div class="post-preview {{ post.previewStyle }}">
                         {% if post.image %}
                             <img src="{{ post.image }}" />
                         {% endif %}
@@ -38,3 +38,12 @@ layout: default
 </article>
 
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script>
+window.onload = function() {
+    window.masonry = new Masonry('.preview-grid', {
+        itemSelector: '.post-preview',
+        columnWidth: 200,
+    });
+    $('.preview-grid').addClass('ready');
+}
+</script>

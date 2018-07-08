@@ -10,21 +10,19 @@ layout: default
         <div class="inner">
             {%- if site.posts.size > 0 -%}
             <div class="preview-grid">
-                {%- for post in site.posts -%}
+                {% assign posts = site.posts | sort: 'date' %}
+                {%- for post in posts reversed limit: 20 -%}
                 <a href="{{ post.url | relative_url }}">
-                    <div class="post-preview {{ post.previewStyle }}">
+                    <div class="post-preview {{ post.previewStyle }} {% if post.blurImage %}blurred{% endif %} {% if post.previewCols %}cols-{{ post.previewCols }}{% endif %}">
                         {% if post.image %}
-                            <img src="{{ post.image }}" />
+                            <img {% if post.blurImage %}class="blur-bg"{% endif %} src="{{ post.image | relative_url }}" />
                         {% endif %}
-                        <div class="inner">
+                        <div class="inner thumb-header">
                             {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
                             <div>
                                 <span class="post-meta">{{ post.date | date: date_format }}</span>
                                 <h3>{{ post.title | escape }}</h3>
                             </div>
-                            {%- if site.show_excerpts -%}
-                              {{ post.excerpt }}
-                            {%- endif -%}
                         </div>
                     </div>
                 </a>
@@ -37,13 +35,31 @@ layout: default
     </section>
 </article>
 
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="assets/textFit.min.js"></script>
+<script src="assets/masonry.pkgd.min.js"></script>
+<script src="assets/imagesloaded.pkgd.min.js"></script>
 <script>
 window.onload = function() {
-    window.masonry = new Masonry('.preview-grid', {
+    var masonry = new Masonry('.preview-grid', {
         itemSelector: '.post-preview',
-        columnWidth: 200,
+        columnWidth: '.post-preview',
+        gutter: 10,
+    });
+    imagesLoaded($('.preview-grid').get(0), function() {
+        masonry.layout();
     });
     $('.preview-grid').addClass('ready');
-}
+
+    function resizeText() {
+        textFit(document.getElementsByClassName('thumb-header'), {
+            alignHoriz: true,
+            alignVert: true,
+            alignVertWithFlexbox: true,
+            maxFontSize: 36,
+            horizontalOrder: true,
+        });
+    }
+    $(window).on('resize orientationchange', resizeText);
+    resizeText();
+};
 </script>

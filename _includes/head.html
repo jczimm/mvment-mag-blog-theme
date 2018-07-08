@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
     
-    <link rel="stylesheet" href="https://mvmentmag.com/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
     <style>
         #header {
             background-color: #283039 !important;
@@ -28,29 +28,61 @@
             position: relative;
         }*/
         .post-preview .inner {
-            display: flex;
+            /*display: flex;*/
             position: absolute;
-            align-items: center;
-            justify-content: center;
+            /*align-items: center;*/
+            /*justify-content: center;*/
             height: 100%;
             width: 100%;
             top: 0;
+        }
+        .post-preview .thumb-header {
+            padding: 1em;
         }
         .post-preview .inner > div {
             text-align: center;
             padding: 2em;
             font-size: 2em;
-            line-height: 1.25em;
+            z-index: 2;
         }
         .post-preview h3 {
+            line-height: 1.25em;
             color: inherit !important;
+            margin-bottom: 0;
+        }
+        .post-preview .post-meta {
+            line-height: 1.25em;
+            /*font-size: 0.8em;*/
         }
         .post-preview {
-            max-width: 50%;
+            max-width: calc(33% - 4px);
+            overflow: hidden;
+        }
+        .post-preview.cols-1 {
+            max-width: calc(33% - 4px);
+        }
+        .post-preview.cols-2 {
+            max-width: calc(66% - 8px);
+        }
+        .post-preview.cols-3 {
+            max-width: 100%;
         }
         .post-preview img {
             height: auto;
-            max-width: 100%;
+            width: 100%;
+            position: relative !important;
+            z-index: inherit !important;
+            /*position: absolute;
+            height: 100%;
+            width: auto;*/
+        }
+        .post-preview.blurred {
+            margin-bottom: 0.5em;
+        }
+        .post-preview img.blur-bg {
+            -webkit-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            transform: scale(1.1);
         }
         .post-preview.dark {
             color: #fff;
@@ -58,6 +90,29 @@
 
         .rss-subscribe {
             margin-top: 4em;
+        }
+
+        .article .wrapper p > img {
+            margin-left: -2.25em;
+        }
+        .article .post-meta {
+            /*margin-bottom: 2em;*/
+            margin-bottom: 1.8em;
+            font-size: 1.2em;
+        }
+        .article .post-meta .author {
+            display: block;
+            font-style: italic;
+            font-weight: 600;
+            float: right;
+            /*margin-left: 2.25em;*/
+            font-size: 1em;
+        }
+        .article .post-meta .author:first-of-type {
+            margin-top: 1.5em;
+        }
+        .article .post-meta .author:last-of-type {
+            margin-bottom: 1em;
         }
 
         @media screen and (max-width: 736px) {

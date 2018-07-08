@@ -1,15 +1,33 @@
 {% if page.categories %}
   {% capture categories %}
+<div class="section-label ib">
     {% for category in page.categories %}
-      <span class="label label--category">{{ category }}</span>{% if forloop.last == false %},{% endif %}
+    <span>{{ category }}</span>{% if forloop.last == false %},{% endif %}
     {% endfor %}
+</div>
   {% endcapture %}
 {% elsif page.category %}
   {% capture categories %}
-    <span class="label label--category">{{ page.category }}</span>
+<div class="section-label ib">
+    <span>{{ page.category }}</span>
+</div>
   {% endcapture %}
 {% endif %}
 
-<small class="small post-meta">
-  {{ categories | append: "&nbsp;&middot;&nbsp;" }}<time datetime="{{ page.date | date_to_xmlschema }}" class="time">{{ page.date | date_to_string }}</time>
-</small>
+<div class="post-meta">
+    {{ categories }}<time datetime="{{ page.date | date_to_xmlschema }}" class="time">{{ page.date | date_to_string }}</time>
+
+    <!-- {% if page.author %}
+    <span class="author">by {{ page.author }}</span>
+    {% endif %}
+    {% if page.illustrator %}
+    <span class="author">Illustrated by {{ page.illustrator }}</span>
+    {% endif %} -->
+</div>
+
+{% if page.author %}
+<p><b><i>by {{ page.author }}</i></b></p>
+{% endif %}
+{% if page.illustrator %}
+<p><b><i>Illustrated by {{ page.illustrator }}</i></b></p>
+{% endif %}

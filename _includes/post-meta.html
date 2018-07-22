@@ -25,7 +25,7 @@
     {% endif %} -->
 </div>
 
-{% if page.author %}
+{% if page.author and page.author != ''  %}
 <p><b><i>by {{ page.author }}</i></b></p>
 {% endif %}
 {% if page.illustrator %}

@@ -177,26 +177,22 @@
     }
 }
 
-// xsmall
-@media screen and (max-width: 480px) {
-    .post-preview {
-        max-width: 100% !important;
-    }
-}
+// // xsmall
+// @media screen and (max-width: 480px) {
+//     .post-preview {
+//         max-width: 100% !important;
+//     }
+// }
 
-.nudge-wrap-reverse {
-    display: flex;
-    flex-wrap: wrap-reverse;
-    justify-content: flex-end;
-    > .spacer {
-        flex-grow: 1;
-    }
-}
 .nudge-wrap {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: flex-end !important;
     > .spacer {
         flex-grow: 1;
+    }
+
+    &.reverse {
+        flex-wrap: wrap-reverse;
     }
 }

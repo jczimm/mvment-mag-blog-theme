@@ -52,6 +52,7 @@ window.onload = function() {
         itemSelector: '.post-preview',
         columnWidth: '.post-preview',
         gutter: 10,
+        // resize: !('textFit' in window),
     });
     imagesLoaded($('.preview-grid').get(0), function() {
         masonry.layout();
@@ -65,6 +66,9 @@ window.onload = function() {
             maxFontSize: 36,
             horizontalOrder: true,
         });
+        masonry.layout();
+        setTimeout(masonry.layout.bind(masonry), 100);
+        setTimeout(masonry.layout.bind(masonry), 1000);
     }
     $(window).on('resize orientationchange', resizeText);
     resizeText();

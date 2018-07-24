@@ -16,8 +16,12 @@ layout: default
 				<h1>{{ page.title }}</h1>
 			</header>
 			<section>
-				{% include socialbuttons.html %}
-				{% include post-meta.html %}
+				<div class="nudge-wrap post-bar">
+					{% include post-meta.html %}
+					<div class="spacer"></div>
+					{% include socialbuttons.html %}
+				</div>
+				{% include post-author.html %}
 				{{ content }}
 				{% include socialbuttons.html %}
 			</section>

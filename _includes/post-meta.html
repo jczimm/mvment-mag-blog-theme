@@ -2,7 +2,7 @@
   {% capture categories %}
 <div class="section-label ib">
     {% for category in page.categories %}
-    <span>{{ category }}</span>{% if forloop.last == false %},{% endif %}
+    <span>{{ category }}</span>
     {% endfor %}
 </div>
   {% endcapture %}
@@ -15,7 +15,7 @@
 {% endif %}
 
 <div class="post-meta">
-    {{ categories }}<time datetime="{{ page.date | date_to_xmlschema }}" class="time">{{ page.date | date_to_string }}</time>
+    {{ categories }}<time datetime="{{ page.date | date_to_xmlschema }}" class="timestamp">{{ page.date | date_to_string }}</time>
 
     <!-- {% if page.author %}
     <span class="author">by {{ page.author }}</span>
@@ -24,10 +24,3 @@
     <span class="author">Illustrated by {{ page.illustrator }}</span>
     {% endif %} -->
 </div>
-
-{% if page.author and page.author != ''  %}
-<p><b><i>by {{ page.author }}</i></b></p>
-{% endif %}
-{% if page.illustrator %}
-<p><b><i>Illustrated by {{ page.illustrator }}</i></b></p>
-{% endif %}

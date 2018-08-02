@@ -145,8 +145,11 @@
     &.blurred {
         margin-bottom: 0.5em;
     }
-    &.dark {
+    &.light {
         color: #fff;
+    }
+    &.dark {
+        color: #283039;
     }
 }
 

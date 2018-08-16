@@ -3,17 +3,17 @@ layout: default
 ---
 
 <article id="main">
-    <header style="padding: 8em 0 5em">
-        <h2><i>MVMENT</i> Blog</h2>
-    </header>
-    <section id="cta1" class="wrapper style2" style="background-color: #000; padding: 3.5em 0 2em;">
+    <section class="wrapper style2 sticky" style="background-color: #000;">
         <div class="inner">
             <header>
-                <h2>Trigger Warning</h2>
-                <p>The writing, imagery, and other forms of expression below may contain explicit descriptions of rape, sexual assault, relationship abuse and other forms of personal violation.</p>
+                <p><b>Trigger Warning</b> &bull; The writing, imagery, and other forms of expression below may contain explicit descriptions of rape, sexual assault, relationship abuse and other forms of personal violation.</p>
             </header>
         </div>
     </section>
+    <header class="compact" style="color: black !important">
+        <h2><i>MVMENT</i> Blog</h2>
+        <h3>Recent Highlights</h3>
+    </header>
     <section class="wrapper style2">
         <div class="inner">
             {%- if site.posts.size > 0 -%}
@@ -23,10 +23,15 @@ layout: default
                 <a href="{{ post.url | relative_url }}">
                     <div class="post-preview {{ post.previewStyle }} {% if post.blurImage %}blurred{% endif %} {% if post.previewCols %}cols-{{ post.previewCols }}{% endif %}">
                         {% if post.image %}
-                            <img {% if post.blurImage %}class="blur-bg"{% endif %} src="{{ post.image | relative_url }}" />
+                            <!-- <img {% if post.blurImage %}class="blur-bg"{% endif %} src="{{ post.image | relative_url }}" /> -->
+                            {% responsive_image_block %}
+                                blurImage: {{ post.blurImage }}
+                                path: {{ post.image | relative_url }}
+                            {% endresponsive_image_block %}
                         {% endif %}
+
+                        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
                         <div class="inner thumb-header">
-                            {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
                             <div>
                                 <span class="post-meta">{{ post.date | date: date_format }}</span>
                                 <h3>{{ post.title | escape }}</h3>
@@ -43,11 +48,72 @@ layout: default
     </section>
 </article>
 
-<script src="assets/textFit.min.js"></script>
-<script src="assets/masonry.pkgd.min.js"></script>
-<script src="assets/imagesloaded.pkgd.min.js"></script>
+{% contentfor vanilla_scripts %}
+<script src="assets/js/lib/textFit.min.js"></script>
+<script src="assets/js/lib/macy.min.js"></script>
 <script>
-window.onload = function() {
+window.BlogLandingLayout = (function() {
+    var containerSel = '.preview-grid';
+    var macyOptions = {
+        container: containerSel,
+        trueOrder: true,
+        waitForImages: true,
+        margin: 10,
+        columns: 3,
+        breakAt: { 980: 2 },
+    };
+    var textFitOptions = {
+        alignHoriz: true,
+        alignVert: true,
+        minFontSize: 12,
+        maxFontSize: 36,
+        horizontalOrder: true,
+    };
+
+    var macyLayout;
+    function initMacy() {
+        macyLayout = window.macyLayout = Macy(macyOptions);
+
+        var thumbHeaders = document.getElementsByClassName('thumb-header');
+
+        var recalculatedYet = false;
+        macyLayout.on(macyLayout.constants.EVENT_RECALCULATED, function resizeText() {
+            textFit(thumbHeaders, textFitOptions);
+
+            if (!recalculatedYet) {
+                recalculatedYet = true;
+                setTimeout(function() {
+                    macyLayout.container.classList += ' ready';
+                }, 1000);
+            }
+        });
+    }
+    function onResize() {
+        macyLayout.recalculate();
+    }
+
+    return {
+        containerSel: containerSel,
+        init: initMacy,
+        onResize: onResize,   
+    };
+})();
+</script>
+{% endcontentfor %}
+
+{% contentfor lib_scripts %}
+<!-- <script src="assets/js/lib/imagesloaded.pkgd.min.js"></script> -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.waitforimages/1.5.0/jquery.waitforimages.min.js"></script>
+<script>
+$(function() {
+    $(BlogLandingLayout.containerSel).waitForImages(BlogLandingLayout.init);
+});
+$(window).on('resize orientationchange', BlogLandingLayout.onResize);
+</script>
+{% endcontentfor %}
+
+<!-- <script>
+ window.onload = function() {
     var masonry = new Masonry('.preview-grid', {
         itemSelector: '.post-preview',
         columnWidth: '.post-preview',
@@ -73,4 +139,4 @@ window.onload = function() {
     $(window).on('resize orientationchange', resizeText);
     resizeText();
 };
-</script>
+</script> -->

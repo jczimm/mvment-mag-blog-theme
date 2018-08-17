@@ -23,11 +23,14 @@ layout: default
                 <a href="{{ post.url | relative_url }}">
                     <div class="post-preview {{ post.previewStyle }} {% if post.blurImage %}blurred{% endif %} {% if post.previewCols %}cols-{{ post.previewCols }}{% endif %}">
                         {% if post.image %}
-                            <!-- <img {% if post.blurImage %}class="blur-bg"{% endif %} src="{{ post.image | relative_url }}" /> -->
-                            {% responsive_image_block %}
-                                blurImage: {{ post.blurImage }}
-                                path: {{ post.image | relative_url }}
-                            {% endresponsive_image_block %}
+                            {% if site.env == 'production' %}
+                                {% responsive_image_block %}
+                                    blurImage: {{ post.blurImage }}
+                                    path: {{ post.image }}
+                                {% endresponsive_image_block %}
+                            {% else %}
+                                <img {% if post.blurImage %}class="blur-bg"{% endif %} src="{{ post.image | relative_url }}" />
+                            {% endif %}
                         {% endif %}
 
                         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}

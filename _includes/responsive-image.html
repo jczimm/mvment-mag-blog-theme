@@ -5,4 +5,4 @@
     {% endfor %}
 {% endcapture %}
 
-<img {% if blurImage %}class="blur-bg"{% endif %} src="/{{ largest.path }}" srcset="{{ srcset | strip_newlines }}">
+<img {% if blurImage %}class="blur-bg"{% endif %} src="/{{ largest.path | relative_url }}" srcset="{{ srcset | strip_newlines | relative_url }}">

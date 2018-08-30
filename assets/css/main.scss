@@ -152,9 +152,15 @@
     }
     &.light {
         color: #fff;
+        &.blurred .thumb-header {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
     }
     &.dark {
         color: #283039;
+        &.blurred .thumb-header {
+            background-color:  rgba(255, 255, 255, 0.5);
+        }
     }
 }
 

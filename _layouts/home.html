@@ -20,7 +20,7 @@ layout: default
             {%- if site.posts.size > 0 -%}
             <div class="preview-grid">
                 {% assign posts = site.posts | sort: 'date' | reverse %}
-                {%- for post in posts limit: 20 -%}
+                {%- for post in posts limit: 30 -%}
                 <a href="{{ post.url | relative_url }}">
                     <div class="post-preview {{ post.previewStyle }} {% if post.blurImage %}blurred{% endif %} {% if post.previewCols %}cols-{{ post.previewCols }}{% endif %}">
                         {% if post.image %}

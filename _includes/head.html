@@ -10,5 +10,7 @@
     
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
 
+    {% if include.headTags != false %}
     {% include head-tags.html %}
+    {% endif %}
 </head>

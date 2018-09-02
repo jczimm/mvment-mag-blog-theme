@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+    {% include head.html headTags=false %}
+    <body style="background-color: #fff; overflow: hidden">
+        {%- if site.posts.size > 0 -%}
+        <div id="blog-preview">
+        {% assign posts = site.posts | sort: 'date' | reverse %}
+        {%- for post in posts limit: 5 -%}
+            {% include post-preview.html post=post target="_top" %}
+        {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        {% if jekyll.environment == 'production' %}
+        {% include iframeonly-script.html %}
+        {% endif %}
+        <script src="assets/js/lib/textFit.min.js"></script>
+        <script src="/assets/js/jquery.min.js"></script>
+        <script>
+        var textFitOptions = {
+            alignHoriz: true,
+            alignVert: true,
+            minFontSize: 12,
+            maxFontSize: 36,
+            horizontalOrder: true,
+        };
+        var thumbHeaders = document.getElementsByClassName('thumb-header');
+        function onResize() {
+            textFit(thumbHeaders, textFitOptions);
+        }
+        $(window).on('resize orientationchange', onResize);
+        onResize();
+        </script>
+    </body>
+</html>

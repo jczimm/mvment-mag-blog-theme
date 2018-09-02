@@ -1,0 +1,16 @@
+{% assign post = include.post %}
+<a href="{{ post.url | relative_url }}" {% if include.target %}target="{{ include.target }}"{% endif %}>
+    <div class="post-preview {{ post.previewStyle }} {% if post.blurImage %}blurred{% endif %} {% if post.previewCols %}cols-{{ post.previewCols }}{% endif %}">
+        {% if post.image %}
+            <img {% if post.blurImage %}class="blur-bg"{% endif %} src="{{ post.image | relative_url }}" />
+        {% endif %}
+
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <div class="inner thumb-header">
+            <div>
+                <span class="post-meta">{{ post.date | date: date_format }}</span>
+                <h3>{{ post.title | escape }}</h3>
+            </div>
+        </div>
+    </div>
+</a>

@@ -1,0 +1,10 @@
+<script>
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+if (!inIframe() || window.top.host !== 'mvmentmag.com') window.location.href = '/';
+</script>

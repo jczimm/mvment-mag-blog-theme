@@ -6,5 +6,5 @@ function inIframe () {
         return true;
     }
 }
-if (!inIframe() || window.top.host !== 'mvmentmag.com') window.location.href = '/';
+if (!inIframe() || window.top.location.host.indexOf('mvmentmag.com') === -1) window.location.href = '/';
 </script>

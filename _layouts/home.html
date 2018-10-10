@@ -20,7 +20,7 @@ layout: default
             {%- if site.posts.size > 0 -%}
             <div class="preview-grid">
             {% assign posts = site.posts | sort: 'date' | reverse %}
-            {%- for post in posts limit: 30 -%}
+            {%- for post in posts -%}
                 {% include post-preview.html post=post %}
             {%- endfor -%}
             </div>
@@ -32,6 +32,7 @@ layout: default
 </article>
 
 {% contentfor vanilla_scripts %}
+<script src="assets/js/lib/lazysizes.min.js"></script>
 <script src="assets/js/lib/textFit.min.js"></script>
 <script src="assets/js/lib/macy.min.js"></script>
 <script>
@@ -40,7 +41,7 @@ window.BlogLandingLayout = (function() {
     var macyOptions = {
         container: containerSel,
         trueOrder: true,
-        waitForImages: true,
+        waitForImages: false,
         margin: 10,
         columns: 3,
         breakAt: { 980: 2 },
@@ -55,30 +56,32 @@ window.BlogLandingLayout = (function() {
 
     var macyLayout;
     function initMacy() {
-        macyLayout = window.macyLayout = Macy(macyOptions);
+        macyLayout = Macy(macyOptions);
 
         var thumbHeaders = document.getElementsByClassName('thumb-header');
 
-        var recalculatedYet = false;
+        // var recalculatedYet = false;
+        macyLayout.container.classList += ' ready';
         macyLayout.on(macyLayout.constants.EVENT_RECALCULATED, function resizeText() {
             textFit(thumbHeaders, textFitOptions);
 
-            if (!recalculatedYet) {
-                recalculatedYet = true;
-                setTimeout(function() {
-                    macyLayout.container.classList += ' ready';
-                }, 1000);
-            }
+            // if (!recalculatedYet) {
+            //     recalculatedYet = true;
+            //     setTimeout(function() {
+            //         macyLayout.container.classList += ' ready';
+            //     }, 1000);
+            // }
         });
     }
-    function onResize() {
-        macyLayout.recalculate();
+
+    function recalculate(refresh) {
+        macyLayout.recalculate(refresh);
     }
 
     return {
         containerSel: containerSel,
         init: initMacy,
-        onResize: onResize,   
+        recalculate: recalculate,   
     };
 })();
 </script>
@@ -86,12 +89,18 @@ window.BlogLandingLayout = (function() {
 
 {% contentfor lib_scripts %}
 <!-- <script src="assets/js/lib/imagesloaded.pkgd.min.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.waitforimages/1.5.0/jquery.waitforimages.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.waitforimages/1.5.0/jquery.waitforimages.min.js"></script> -->
 <script>
 $(function() {
-    $(BlogLandingLayout.containerSel).waitForImages(BlogLandingLayout.init);
+    BlogLandingLayout.init();
+    // $(BlogLandingLayout.containerSel).waitForImages(BlogLandingLayout.init);
 });
-$(window).on('resize orientationchange', BlogLandingLayout.onResize);
+$(window).on('resize orientationchange', function() {
+    BlogLandingLayout.recalculate();
+});
+$(BlogLandingLayout.containerSel).find('img.lazyload').on('load', function() {
+    BlogLandingLayout.recalculate(true);
+});
 </script>
 {% endcontentfor %}
 

@@ -21,7 +21,7 @@ layout: default
             <div class="preview-grid">
             {% assign posts = site.posts | sort: 'date' | reverse %}
             {%- for post in posts -%}
-                {% include post-preview.html post=post %}
+                {% include post-preview.html post=post lazyload=true %}
             {%- endfor -%}
             </div>
 

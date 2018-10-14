@@ -6,7 +6,7 @@
         <div id="blog-preview">
         {% assign posts = site.posts | sort: 'date' | reverse %}
         {%- for post in posts limit: 5 -%}
-            {% include post-preview.html post=post target="_top" %}
+            {% include post-preview.html post=post target="_top" lazyload=false %}
         {%- endfor -%}
         </div>
         {%- endif -%}

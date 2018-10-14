@@ -4,7 +4,11 @@
     <div class="post-preview {{ post.previewStyle }}{% if post.blurImage %} blurred{% endif %}{% if post.previewCols %} cols-{{ post.previewCols }}{% endif %}">
         {% if post.image %}
             {% capture src %}{{ post.image | relative_url }}{% endcapture %}
+            {% if lazyload %}
             <img class="lazyload{% if post.blurImage %} blur-bg{% endif %}" src="{{ src }}" srcset="{{ PLACEHOLDER_SRC }}" data-srcset="{{ src }}" />
+            {% else %}
+            <img class="{% if post.blurImage %} blur-bg{% endif %}" src="{{ src }}" />
+            {% endif %}
         {% endif %}
 
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}

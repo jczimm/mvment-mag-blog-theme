@@ -10,12 +10,19 @@ layout: default
             </header>
         </div>
     </section>
-    <header class="compact" style="color: black !important">
+    <!-- <header class="compact" style="color: black !important">
         <h2><i>MVMENT</i> Blog</h2>
         <h3>Recent Highlights</h3>
-    </header>
+    </header> -->
 
-    <section class="wrapper style5">
+    <section class="wrapper style5 home">
+        <header>
+            <h2>
+                <div class="img"></div>
+                <span>The Blog</span>
+            </h2>
+            <!-- <h3>Recent Highlights</h3> -->
+        </header>
         <div class="inner">
             {%- if site.posts.size > 0 -%}
             <div class="preview-grid">
@@ -34,18 +41,11 @@ layout: default
 {% contentfor vanilla_scripts %}
 <script src="assets/js/lib/lazysizes.min.js"></script>
 <script src="assets/js/lib/textFit.min.js"></script>
-<script src="assets/js/lib/macy.min.js"></script>
+<!-- <script src="assets/js/lib/macy.min.js"></script> -->
 <script>
 window.BlogLandingLayout = (function() {
-    var containerSel = '.preview-grid';
-    var macyOptions = {
-        container: containerSel,
-        trueOrder: true,
-        waitForImages: false,
-        margin: 10,
-        columns: 3,
-        breakAt: { 980: 2 },
-    };
+    var grid = document.querySelector('.preview-grid');
+    // var thumbHeaders = document.getElementsByClassName('thumb-header');
     var textFitOptions = {
         alignHoriz: true,
         alignVert: true,
@@ -54,41 +54,45 @@ window.BlogLandingLayout = (function() {
         horizontalOrder: true,
     };
 
-    var macyLayout;
-    function initMacy() {
-        macyLayout = Macy(macyOptions);
+    function resizeGridItem(item) {
+        rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+        rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+        rowSpan = Math.ceil((item.querySelector('.post-preview').getBoundingClientRect().height + rowGap)/(rowHeight + rowGap));
+        item.style.gridRowEnd = 'span ' + rowSpan;
 
-        var thumbHeaders = document.getElementsByClassName('thumb-header');
-
-        // var recalculatedYet = false;
-        macyLayout.container.classList += ' ready';
-        macyLayout.on(macyLayout.constants.EVENT_RECALCULATED, function resizeText() {
-            textFit(thumbHeaders, textFitOptions);
-
-            // if (!recalculatedYet) {
-            //     recalculatedYet = true;
-            //     setTimeout(function() {
-            //         macyLayout.container.classList += ' ready';
-            //     }, 1000);
-            // }
-        });
+        updateText(item.querySelector('.thumb-header'));
     }
 
-    function recalculate(refresh) {
-        macyLayout.recalculate(refresh);
+    function resizeInstance(instance) {
+        resizeGridItem(instance.elements[0]);
+    }
+
+    function recalculate() {
+        var allItems = grid.querySelectorAll('a');
+        for (var x = 0; x < allItems.length; x++) {
+            resizeGridItem(allItems[x]);
+        }
+    }
+
+    function updateText(target) {
+        // HACK: fixes ~'need to set static height and width before using textfit'
+        try { textFit(target, textFitOptions); } catch (err) {
+            try { textFit(target, textFitOptions); } catch (err) {}
+        }
     }
 
     return {
-        containerSel: containerSel,
-        init: initMacy,
-        recalculate: recalculate,   
+        containerEl: grid,
+        init: recalculate,
+        recalculate: recalculate,
+        resizeInstance: resizeInstance,   
     };
 })();
 </script>
 {% endcontentfor %}
 
 {% contentfor lib_scripts %}
-<!-- <script src="assets/js/lib/imagesloaded.pkgd.min.js"></script> -->
+<script src="assets/js/lib/imagesloaded.pkgd.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.waitforimages/1.5.0/jquery.waitforimages.min.js"></script> -->
 <script>
 $(document).on('ready', function () {
@@ -98,9 +102,12 @@ $(document).on('ready', function () {
 $(window).on('resize orientationchange', function() {
     BlogLandingLayout.recalculate();
 });
-$(BlogLandingLayout.containerSel).find('img.lazyload').on('load', function() {
-    BlogLandingLayout.recalculate(true);
+$(BlogLandingLayout.containerEl).find('> a').each(function() {
+    imagesLoaded(this, BlogLandingLayout.resizeInstance);
 });
+// $(BlogLandingLayout.containerSel).find('img.lazyload').on('load', function() {
+//     BlogLandingLayout.recalculate(true);
+// });
 </script>
 {% endcontentfor %}
 
